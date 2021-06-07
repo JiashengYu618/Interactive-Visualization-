@@ -10,6 +10,6 @@ In this project, I will use the two datasets midterm-results.csv and quiz-catego
 ## Random Histogram Generator
 We will build a Shiny App one piece at a time. This app will generate a histogram based on random values drawn from a normal distribution, the user will be able to select the number of draws that generate the histogram by typing the number of the draws. Also, the users can user the slider to choose how many bins that you want to see from this UI.
 
-![Histogram Generator](./Histogram Generator.jpg)
+![Histogram Generator](Histogram Generator.jpg)
 
-![Histogram Generator2](./Histogram Generator2.jpg)
+![Histogram Generator2](Histogram Generator2.jpg)
