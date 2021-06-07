@@ -47,6 +47,8 @@ I create four categories, and I will show them separately. Each category has two
 
 **Question_category**
 
+Use the slider to choose which question that you want to see.
+
 ![question_category](./question_category.jpg)
 
 **midterm results**
