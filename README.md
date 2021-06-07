@@ -37,3 +37,14 @@ I create four categories, and I will show them separately. Each category has two
 **Question_Correct**
 
 ![Question_Correct](./question_correct.jpg)
+
+![Question_Correct Table](./question_correct_table.jpg)
+
+**quiz_categories**
+
+![quiz_categories](./quiz_categories.jpg)
+
+
+**Question_category**
+
+![question_category](./question_category.jpg)
