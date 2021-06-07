@@ -48,3 +48,7 @@ I create four categories, and I will show them separately. Each category has two
 **Question_category**
 
 ![question_category](./question_category.jpg)
+
+**midterm results**
+
+![midterm_results.jpg](./midterm_results.jpg)
