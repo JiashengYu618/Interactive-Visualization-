@@ -58,5 +58,7 @@ Use the slider to choose which question that you want to see.
 ## Relevant Materials
 
 [Shiny Apps Documentation](https://shiny.rstudio.com/)
+
 [Shiny Gallery](https://shiny.rstudio.com/gallery/)
+
 [Verbert, K., Duval, E., Klerkx, J., Govaerts, S., & Santos, J. L. (2013). Learning Analytics Dashboard Applications. American Behavioral Scientist, 57(10), 1500–1509.](https://journals.sagepub.com/doi/abs/10.1177/0002764213479363)
