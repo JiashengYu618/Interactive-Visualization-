@@ -8,7 +8,7 @@ Interactive visualization is becoming a more prominent feature of reporting. Bus
 In this project, I will use the two datasets midterm-results.csv and quiz-categories.csv to do interactive visualizations.
 
 ## Random Histogram Generator
-We will build a Shiny App one piece at a time. This app will generate a histogram based on random values drawn from a normal distribution, the user will be able to select the number of draws that generate the histogram by typing the number of the draws. Also, the users can user slide to choose how many bins that you want to see from this UI.
+We will build a Shiny App one piece at a time. This app will generate a histogram based on random values drawn from a normal distribution, the user will be able to select the number of draws that generate the histogram by typing the number of the draws. Also, the users can user the slider to choose how many bins that you want to see from this UI.
 
 ![Histogram Generator](./Histogram Generator.png)
 
