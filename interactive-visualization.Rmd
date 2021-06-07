@@ -1,0 +1,400 @@
+---
+title: "Interactive Visualizations"
+author: "Jiasheng Yu"
+date: "2/17/2021"
+output: html_document
+---
+
+Step-by-step instructions for building a Shiny App
+
+```{r}
+# install.packages("shiny")
+library(shiny)
+library(ggplot2)
+```
+
+## Basic Button
+
+Review the annotated code below
+
+```{r}
+ui <- fluidPage(actionButton("goButton", "Wake up!"),
+                textOutput("reply"))
+
+server <- function(input, output) {
+  observeEvent(input$goButton, #1. Create reactivity wih input$
+  output$reply <- #2. Save output to output$
+    renderText({"5 more minutes..."})) #3. Build output with render*()
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+## Random Histogram Generator
+
+Now we will build another Shiny App one piece at a time (Only the code starting at line 97 will run). This app will generate a histogram based on random values drawn from a normal distribution, the user will be able to select the number of draws that generate the histogram by using a slider.
+
+<!-- 1. Begin with the template: -->
+
+```{r}
+ui <- fluidPage(
+   # Sidebar layout with input and output definitions ----
+   sidebarLayout(
+     # Sidebar panel for inputs ----
+       sidebarPanel(
+         sliderInput(
+           "mu",
+           "Select mean of the normal distribution:",
+           min = -10,
+           max = 10,
+           value = 0, #default value
+         ),
+        sliderInput(
+         "std",
+         "Select standard deviation of the normal distribution:",
+         min = 0,
+         max = 5,
+         value = 1, #default value
+       ),
+       numericInput(
+         "num_of_draws",
+         "Select the number of draws that you want to create:",
+         min = 1,
+         max = 100,
+         value = 1
+      ),
+      sliderInput(
+        "bins", #number of sections
+        "Number of bins:",
+        min = 5,
+        max = 15,
+        value = 0
+      ),
+      submitButton("Submit")
+     ),
+
+     mainPanel(
+       h3("Histogram of Normal"),
+       # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+     )
+   )
+)
+
+server <- function(input, output) {
+  output$distPlot <- renderPlot(
+    {
+      x <- rnorm(input$num_of_draws, mean = as.numeric(input$mu), sd = as.numeric(input$std))
+      #hist(x,breaks = input$bins)
+      ggplot(as.data.frame(x),aes(x=x))+geom_histogram(bins = input$bins,fill="white",colour = "black")
+    }
+  )
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+<!-- 2. Then, start by defining the user interface (ui) object by describing the components of fluidPage(). We want to use a slider, so the input expression is sliderInput(). We label the slider object "num" and the label that the user will see "Choose a number". Three other arguments are required sepcifically for sliders:  -->
+
+<!-- value: the value the slider will start at when the app loads -->
+<!-- min: the minimum value the slider will have -->
+<!-- max: the maximum value the slider will have -->
+
+<!-- ```{r} -->
+<!-- ui <- fluidPage( -->
+<!--   sliderInput(inputId = "num", label = "Choose a number",  -->
+<!--     value = 1, min = 1, max = 100)) -->
+
+<!-- ``` -->
+
+<!-- 3. Now we need to define the output expression. Here will we name it "hist" -->
+
+<!-- ```{r} -->
+<!-- ui <- fluidPage( -->
+<!--   sliderInput(inputId = "num", label = "Choose a number",  -->
+<!--     value = 1, min = 1, max = 100), -->
+
+<!--   plotOutput("hist") -->
+
+<!-- ) -->
+<!-- ``` -->
+
+<!-- 4. Now that we have defined the ui object we can move on to defining the server object. We are going to call the output label we just defined, "hist" by refering to it as ``"output$hist"``. We will then use the renderPlot() expression to call a plot. -->
+
+<!-- ```{r} -->
+<!-- server <- function(input, output) { -->
+<!--   output$hist <- renderPlot({}) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- 5. The command for generating a random number drawn from a normal distribution is "rnorm()". Try rnorm in teh command line using any number you like between the parentheses. It will draw numbers from a normal distribution with mean of zero and standard deviation of 1. Now, put the hist() command around your rnorm command:  -->
+
+<!-- hist(rnorm()) -->
+
+<!-- Now you have generated a random histogram! We want our Shiny App to do this, but with a range of values that the user can choose from. -->
+
+<!-- 6. The way to achieve our histogram is to call it from within curly brackets ({}), curly brackets bind a set of commands together so R will read them at the same time. Our complete server function will look like: -->
+
+<!-- ```{r} -->
+<!-- server <- function(input, output) { -->
+<!--   output$hist <- renderPlot({ -->
+<!--     hist(rnorm(input$num)) -->
+<!--   }) -->
+<!--   } -->
+<!-- ``` -->
+
+<!-- 7. We can then put everything together to generate our Shiny App. Run the code below. -->
+
+<!-- ```{r} -->
+<!-- ui <- fluidPage( -->
+<!--   sliderInput(inputId = "num", label = "Choose a number", -->
+<!--     value = 1, min = 1, max = 100), plotOutput("hist")) -->
+
+<!-- server <- function(input, output) { -->
+<!--   output$hist <- renderPlot({ -->
+<!--     hist(rnorm(input$num)) -->
+<!--   }) -->
+<!-- } -->
+
+<!-- shinyApp(ui = ui, server = server) -->
+
+<!-- ``` -->
+
+## Deploy
+
+Go to the [Shiny Apps hosting service](http://www.shinyapps.io/) and set up an account. Transfer your visualization to the RStudio servers according to the instructions [here](http://docs.rstudio.com/shinyapps.io/).
+
+Now see if you can replace the standard histogram in the above Shiny App with a ggplot histogram hosted on shinyapps.io.
+**The updated code for deploying is put in server.R.**
+```{r}
+#install.packages('rsconnect')
+
+rsconnect::setAccountInfo(name='jy3084',
+			  token='BEB8B0B2A79E11B85485B51779C106D7',
+			  secret='z1iJ2Kc2aTDAG8qaczVbI8b2blSOJ3095CCxf4CP')
+library(rsconnect)
+rsconnect::deployApp()
+
+```
+## Final Project
+
+Finally, build an interactive visualization using the data sets quiz-categories.csv and midterm-results.csv. These data represent midterm results from an open book test. Deploy your dashboard to the Shiny Apps hosting service. 
+
+The categories represent the skills required to answer each question:
+
+wrangling - Question required data manipulations skills  
+coding - Question required coding skills  
+d.trees - Question invoilved decision trees  
+sna - Question involved social network analysis  
+nlp - Question involved natural language processing  
+viz - Question involved visualization of data  
+n.nets - Question involved neural nets  
+googleable - Question could be answered by searching the internet  
+non-googleable - Question could not be answered through simple searching of the internet  
+jitl - Question involved learning somethimg new (just in time learning)  
+substantive - Question involved wrestling with a complex idea that does not have a definitive answer
+
+```{r}
+library(dplyr)
+library(ggplot2)
+#dataset 1
+df_quiz <- read.csv("quiz-categories.csv") 
+#dataset 2
+df_results <- read.csv("midterm-results.csv")
+#dataset 3
+
+df_correct_question <- subset(df_results,select =c(Q1_c:Q30_c))
+correct_no<-apply(df_correct_question,2,sum)
+question_correct_no<-as.data.frame(correct_no)
+question_correct_no$question_no <-c(1:30)
+#dataset 4
+categories <- c("wrangling","coding","d.trees","sna","nlp","viz","n.nets","googleable","non-googleable","jitl","substantive")
+# categories <- c(1,2,3,4,5,6,7,8,9,10,11)
+question_category1 <- data.frame(df_quiz,row.names = 1) #use the first column as the row names
+question_category1 <- t(question_category1)
+question_category2 <- as.data.frame(question_category1,row.names = F)
+#names(question_category2)<-seq(1,30,1)
+question_category <- as.data.frame(cbind(categories,question_category2))
+question_category <- question_category[,c(2:31,1)]
+#rownames(question_category) = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,"categories")
+# library(tidyr)
+# question_category <- question_category %>% gather(questionNo,value,-categories) #pivot
+
+
+
+ui <- fluidPage(
+  titlePanel("Quiz and Results Table"),
+  sidebarLayout(
+    
+    sidebarPanel(
+      selectInput("dataSet","Choose one dataset:",choices = c("quiz-categories" = "qc",
+                                                              "midterm-results" = "mr",
+                                                              "question_correct"="ig",
+                                                              "quizNo_category" = "qnc")),
+      br(),
+    conditionalPanel(
+      condition = "input.dataSet == 'qc'",
+      sliderInput("num","Number of observations:",min = 1, max = 30, value = 10),
+      
+    ),
+    conditionalPanel(
+      condition = "input.dataSet == 'mr'",
+      sliderInput("num2","Number of observations:",min = 1, max = 26, value = 10),
+      
+    ),
+    conditionalPanel(
+      condition = "input.dataSet == 'ig'",
+      sliderInput("num3","Number of observations:",min = 1, max = 30, value = 10),
+      
+    ),
+    conditionalPanel(
+      condition = "input.dataSet == 'qnc'",
+      sliderInput("num4","use slider to choose the question number:",min = 1, max = 30,value=1 ),
+      
+    )
+      
+    ),
+    
+    mainPanel(
+      
+      conditionalPanel(
+       condition = "input.dataSet == 'qc'",
+       tabsetPanel(
+        # type = "tabs",
+          tabPanel(
+          "Summary",
+          verbatimTextOutput("summary")
+        ),
+        tabPanel(
+          "Table",
+          tableOutput("table")
+        )
+      )
+    ),
+     conditionalPanel(
+       condition = "input.dataSet == 'mr'",
+        tabsetPanel(
+        # type = "tabs",
+        
+          tabPanel(
+          "Summary",
+          verbatimTextOutput("summary2")
+        ),
+        tabPanel(
+          "Table",
+          tableOutput("table2")
+        )
+        )
+     ),
+     conditionalPanel(
+       condition = "input.dataSet == 'ig'",
+        tabsetPanel(
+      
+        tabPanel(
+          "Table",
+          tableOutput("table3")
+        ),
+       tabPanel(
+          "Plot",
+          plotOutput("plot")
+        )
+        )
+     ),
+    conditionalPanel(
+       condition = "input.dataSet == 'qnc'",
+       tabsetPanel(
+      
+       tabPanel(
+          "Plot",
+          plotOutput("plot2")
+        )
+        )
+     ),
+ 
+    )#mainPanel
+  )#sidebarLayout
+)#fluidPage
+
+server <- function(input, output){
+    dataSetInput <- reactive(
+      {
+        switch(input$dataSet, 
+               "qc" =df_quiz, 
+               "mr" =df_results,
+               "ig"=question_correct_no,
+               "qnc" = question_category)
+        
+      }
+    )
+    
+      output$summary <- renderPrint(
+      {
+        
+          summary(dataSetInput()[1:input$num,])
+      }
+    )
+       output$table <- renderTable(
+      {
+        
+        head(dataSetInput(), n = input$num)
+        
+      }
+    )
+      
+        output$summary2 <- renderPrint(
+      {
+        
+        summary(dataSetInput()[1:input$num2,])
+        
+      }
+    )
+         output$table2 <- renderTable(
+      {
+      
+          head(dataSetInput(), n = input$num2)
+  
+      }
+    )
+            output$table3 <- renderTable(
+      {
+        
+         head(dataSetInput(), n = input$num3)
+      
+      }
+    )
+        
+      
+      output$plot <- renderPlot(
+        {
+         
+            question_no <-dataSetInput()$question_no
+            correct_no <-dataSetInput()$correct_no
+            ggplot(dataSetInput()[1:input$num3,],aes(question_no,correct_no ))+geom_bar(aes(fill = question_no),stat="identity")+ggtitle("Correct Number of Different Questions ")+theme(plot.title = element_text(hjust = 0.5))
+  
+        }
+      )
+      output$plot2 <- renderPlot(
+        {
+            tryCatch(
+            # <- select(dataSetInput(),c(input$num4,31)) 
+            tmp <- dataSetInput()[,c(as.numeric(input$num4),31)],
+             error = function(e){
+              print("wait")
+            }
+          )
+            Question_no <-tmp[,1]
+            category <-tmp[,2]
+              
+            ggplot(tmp,aes(Question_no,category ))+geom_bar(aes(fill = category),stat="identity")+ggtitle("Required Skills for Specific Question")+theme(plot.title = element_text(hjust = 0.5))
+           
+        }
+      )
+       
+    }
+    
+   
+shinyApp(ui = ui, server = server)
+```
+
+
+
