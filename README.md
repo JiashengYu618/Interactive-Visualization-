@@ -32,7 +32,8 @@ non-googleable - Question could not be answered through simple searching of the 
 jitl - Question involved learning somethimg new (just in time learning)  
 substantive - Question involved wrestling with a complex idea that does not have a definitive answer
 
-I create four categories, and I will show them separately:
+I create four categories, and I will show them separately. Each category has two tab buttons and you can choose any one of them. Also, you can use slider to show the number of the items that you want to see :
 
 **Question_Correct**
+
 ![Question_Correct](./question_correct.jpg)
