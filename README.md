@@ -13,7 +13,6 @@ We will build a Shiny App one piece at a time. This app will generate a histogra
 
 
 
-
 ## Interactive Visualization graphs for students' tests
 
 Finally, I build an interactive visualization using the data sets quiz-categories.csv and midterm-results.csv. These data represent midterm results from an open book test. Deploy your dashboard to the Shiny Apps hosting service. 
