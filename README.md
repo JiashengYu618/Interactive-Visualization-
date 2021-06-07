@@ -32,4 +32,7 @@ non-googleable - Question could not be answered through simple searching of the 
 jitl - Question involved learning somethimg new (just in time learning)  
 substantive - Question involved wrestling with a complex idea that does not have a definitive answer
 
+I create four categories, and I will show them separately:
 
+**Question_Correct**
+![Question_Correct](./question_correct.jpg)
