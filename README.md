@@ -4,3 +4,5 @@ Interactive visualization is becoming a more prominent feature of reporting. Bus
 ![Interactive Visualization ex1](./picture.jpg)
 
 ![Interactive Visualization ex2](./picture2.jpg)
+
+In this project, I will use the two datasets midterm-results.csv and quiz-categories.csv to do interactive visualizations.
